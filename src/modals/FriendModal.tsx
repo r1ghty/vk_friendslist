@@ -13,8 +13,8 @@ import { useRouter } from '@happysanta/router'
 import { useAtomValue } from '@mntm/precoil'
 import { selectedFriend } from '../store'
 import { Friend } from '../types'
-import moment from 'moment'
-import 'moment/dist/locale/ru'
+import { format } from 'date-fns'
+import { ru } from 'date-fns/esm/locale'
 
 export const FriendModal: React.FC<ModalCardProps> = ({ id }) => {
   const router = useRouter()
@@ -23,6 +23,20 @@ export const FriendModal: React.FC<ModalCardProps> = ({ id }) => {
 
   const fullName = friend.first_name + ' ' + friend.last_name
   const url = 'https://vk.com/id' + friend.id
+
+  let bDateFormatted = ''
+  if(friend.bdate) {
+    const bDateSplit = friend.bdate.split('.').map(Number)
+    const bDate = new Date(
+      bDateSplit[2] ?? 2022,
+      bDateSplit[1],
+      bDateSplit[0]
+    )
+
+    bDateFormatted = bDateSplit[2]
+      ? format(bDate, 'dd MMMM yyyy', { locale: ru }) + ' г.'
+      : format(bDate, 'dd MMMM', { locale: ru })
+  }
 
   return (
     <ModalCard
@@ -75,7 +89,7 @@ export const FriendModal: React.FC<ModalCardProps> = ({ id }) => {
               key='bdate'
             >
               <InfoRow header='Дата рождения'>
-                {moment(friend.bdate).locale('ru').format('LL')}
+                {bDateFormatted}
               </InfoRow>
             </SimpleCell>
           ) : null
