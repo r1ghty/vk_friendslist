@@ -67,13 +67,17 @@ export const FriendModal: React.FC<ModalCardProps> = ({ id }) => {
           </Header>
         }
       >
-        <SimpleCell
-          key='online'
-        >
-          <InfoRow header='Онлайн'>
-            {friend.online === 1 ? 'В сети' : 'Не в сети'}
-          </InfoRow>
-        </SimpleCell>
+        {!friend.yourself ?
+          (
+            <SimpleCell
+              key='online'
+            >
+              <InfoRow header='Онлайн'>
+                {friend.online === 1 ? 'В сети' : 'Не в сети'}
+              </InfoRow>
+            </SimpleCell>
+          ): null
+        }
         {friend.city ?
           (
             <SimpleCell
