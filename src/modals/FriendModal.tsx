@@ -29,7 +29,7 @@ export const FriendModal: React.FC<ModalCardProps> = ({ id }) => {
     const bDateSplit = friend.bdate.split('.').map(Number)
     const bDate = new Date(
       bDateSplit[2] ?? 2022,
-      bDateSplit[1],
+      bDateSplit[1] - 1,
       bDateSplit[0]
     )
 
